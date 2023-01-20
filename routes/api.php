@@ -24,14 +24,14 @@ Route::get('/users', function() {
 // post user
 Route::post('/users', function() {
     $id = DB::table('users')->insertGetId([
-    'username' => request('username'),
+    'name' => request('name'),
     'password' => bcrypt(request('password'))
     ]);
     return $id;
 });
 // delete user
 Route::delete('/users/{id}', function ($id) {
-    $todo = DB::table('users')->where('id', $id)->delete();
+    DB::table('users')->where('id', $id)->delete();
     return "deleted";
 });
 // patch password
@@ -40,4 +40,10 @@ Route::patch('/users/{id}', function ($id) {
     'password' => bcrypt(request('password'))
     ]);
     return "password updated";
+});
+// create tokens with post (needs at least 1 user)
+Route::post('/tokens/create', function (Request $request) {
+    $user = App\Models\User::find($request->user_id);
+    $token = $user->createToken($request->token_name);
+    return ['token' => $token->plainTextToken];
 });
