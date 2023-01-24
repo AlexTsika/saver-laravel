@@ -29,12 +29,12 @@ Route::middleware(['auth:sanctum'])->get('/users', function() {
 });
 
 // // route for user by id
-// Route::get('/users/{id}', function($id) {
+// Route::get('/users/id/{id}', function($id) {
 //     return DB::table('users')->where('id', $id)->first();
 // });
 
 // secure route for user by id
-Route::middleware(['auth:sanctum'])->get('/users/{id}', function($id) {
+Route::middleware(['auth:sanctum'])->get('/users/id/{id}', function($id) {
     return DB::table('users')->where('id', $id)->first();
 });
 
@@ -90,7 +90,7 @@ Route::middleware(['auth:sanctum'])->get('/users/name/{name}', function($name) {
 
 
 // // delete user
-// Route::delete('/users/{id}', function ($id) {
+// Route::delete('/users/id/{id}', function ($id) {
 //     DB::table('users')->where('id', $id)->delete();
 //     return response()->json([
 //         'message' => 'User deleted'
@@ -98,7 +98,7 @@ Route::middleware(['auth:sanctum'])->get('/users/name/{name}', function($name) {
 // });
 
 // secure route for delete user
-Route::middleware(['auth:sanctum'])->delete('/users/{id}', function ($id) {
+Route::middleware(['auth:sanctum'])->delete('/users/id/{id}', function ($id) {
     DB::table('users')->where('id', $id)->delete();
     return response()->json([
         'message' => 'User created'
@@ -106,7 +106,7 @@ Route::middleware(['auth:sanctum'])->delete('/users/{id}', function ($id) {
 });
 
 // // patch password
-// Route::patch('/users/{id}', function ($id) {
+// Route::patch('/users/id/{id}', function ($id) {
 //     DB::table('users')->where('id', $id)->update([
 //     'password' => bcrypt(request('password'))
 //     ]);
@@ -114,7 +114,7 @@ Route::middleware(['auth:sanctum'])->delete('/users/{id}', function ($id) {
 // });
 
 // secure route patch password
-Route::middleware(['auth:sanctum'])->patch('/users/{id}', function ($id) {
+Route::middleware(['auth:sanctum'])->patch('/users/id/{id}', function ($id) {
     DB::table('users')->where('id', $id)->update([
     'password' => bcrypt(request('password'))
     ]);
