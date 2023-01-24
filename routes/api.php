@@ -38,6 +38,17 @@ Route::middleware(['auth:sanctum'])->get('/users/{id}', function($id) {
     return DB::table('users')->where('id', $id)->first();
 });
 
+// // route for user by name
+// Route::get('/users/{name}', function($name) {
+//     return DB::table('users')->where('name', $name)->first();
+// });
+
+// secure route for user by name
+Route::middleware(['auth:sanctum'])->get('/users/{name}', function($name) {
+    return DB::table('users')->where('name', $name)->first();
+});
+
+
 // // post user
 // Route::post('/users', function() {
 //     $id = DB::table('users')->insertGetId([
