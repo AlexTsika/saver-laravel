@@ -18,8 +18,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 // get all users
-Route::get('/users', function() {
+Route::get('/users', function () {
     return DB::table('users')->get();
+    // return DB::select('select * from users');
 });
 // post user
 Route::post('/users', function() {
