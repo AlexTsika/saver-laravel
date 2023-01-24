@@ -18,17 +18,14 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-
 // get all users
 Route::get('/users', function() {
     return DB::table('users')->get();
 });
 
-// secure route for all users -  token: 2|TwlhWYjUZ7MDX3ksz3xXyhdIqo4OrWVHOOqsPa1z
+// // secure route for all users -  token: 2|TwlhWYjUZ7MDX3ksz3xXyhdIqo4OrWVHOOqsPa1z
 // Route::middleware(['auth:sanctum'])->get('/users', function() {
-
-//  return DB::table('users')->get();
-    // return DB::select('select * from users');
+//     return DB::table('users')->get();
 // });
 
 // route for user by id
@@ -36,7 +33,7 @@ Route::get('/users/id/{id}', function($id) {
     return DB::table('users')->where('id', $id)->first();
 });
 
-// secure route for user by id
+// // secure route for user by id
 // Route::middleware(['auth:sanctum'])->get('/users/id/{id}', function($id) {
 //     return DB::table('users')->where('id', $id)->first();
 // });
@@ -46,12 +43,12 @@ Route::get('/users/name/{name}', function($name) {
     return DB::table('users')->where('name', $name)->first();
 });
 
-// secure route for user by name
+// // secure route for user by name
 // Route::middleware(['auth:sanctum'])->get('/users/name/{name}', function($name) {
 //     return DB::table('users')->where('name', $name)->first();
 // });
 
-// // post user
+// post user
 Route::post('/users', function() {
     $id = DB::table('users')->insertGetId([
     'name' => request('name'),
@@ -100,7 +97,7 @@ Route::delete('/users/id/{id}', function ($id) {
     ]);
 });
 
-// secure route for delete user
+// // secure route for delete user
 // Route::middleware(['auth:sanctum'])->delete('/users/id/{id}', function ($id) {
 //     DB::table('users')->where('id', $id)->delete();
 //     return response()->json([
@@ -123,6 +120,7 @@ Route::patch('/users/id/{id}', function ($id) {
 //     ]);
 //     return "password updated";
 // });
+
 // create tokens with post (needs at least 1 user)
 Route::post('/tokens/create', function (Request $request) {
     $user = App\Models\User::find($request->user_id);
