@@ -39,15 +39,14 @@ Route::middleware(['auth:sanctum'])->get('/users/{id}', function($id) {
 });
 
 // // route for user by name
-// Route::get('/users/{name}', function($name) {
+// Route::get('/users/name/{name}', function($name) {
 //     return DB::table('users')->where('name', $name)->first();
 // });
 
 // secure route for user by name
-Route::middleware(['auth:sanctum'])->get('/users/{name}', function($name) {
+Route::middleware(['auth:sanctum'])->get('/users/name/{name}', function($name) {
     return DB::table('users')->where('name', $name)->first();
 });
-
 
 // // post user
 // Route::post('/users', function() {
