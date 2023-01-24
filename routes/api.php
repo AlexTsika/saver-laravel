@@ -17,25 +17,94 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-// get all users
-Route::get('/users', function() {
+
+// // get all users
+// Route::get('/users', function() {
+//     return DB::table('users')->get();
+// });
+
+// secure route for all users -  token: 2|TwlhWYjUZ7MDX3ksz3xXyhdIqo4OrWVHOOqsPa1z
+Route::middleware(['auth:sanctum'])->get('/users', function() {
     return DB::table('users')->get();
 });
-// post user
-Route::post('/users', function() {
-    $id = DB::table('users')->insertGetId([
-    'name' => request('name'),
-    'password' => bcrypt(request('password'))
+
+// // route for user by id
+// Route::get('/users/{id}', function($id) {
+//     return DB::table('users')->where('id', $id)->first();
+// });
+
+// secure route for user by id
+Route::middleware(['auth:sanctum'])->get('/users/{id}', function($id) {
+    return DB::table('users')->where('id', $id)->first();
+});
+
+// // post user
+// Route::post('/users', function() {
+//     $id = DB::table('users')->insertGetId([
+//     'name' => request('name'),
+//     'password' => bcrypt(request('password'))
+//     ]);
+//     return response()->json([
+//         'message' => 'User created'
+//     ], 201);
+// });
+
+// post user advanced
+    Route::post('/users', function (Request $request) {
+    $name = $request->input('name');
+    $email = $request->input('email');
+    $password = $request->input('password');
+
+    if (DB::table('users')->where('email', $email)->exists()) {
+        return response()->json([
+            'message' => 'email already used'
+        ], 409);
+    }
+
+    if (DB::table('users')->where('name', $name)->exists()) {
+        return response()->json([
+            'message' => 'username already used'
+        ], 409);
+    }
+
+    DB::table('users')->insert([
+        'name' => $name,
+        'password' => Hash::make($password),
+        'email' => $email
     ]);
-    return $id;
+
+    return response()->json([
+        'message' => 'User created'
+    ],201);
 });
-// delete user
-Route::delete('/users/{id}', function ($id) {
+
+
+// // delete user
+// Route::delete('/users/{id}', function ($id) {
+//     DB::table('users')->where('id', $id)->delete();
+//     return response()->json([
+//         'message' => 'User deleted'
+//     ]);
+// });
+
+// secure route for delete user
+Route::middleware(['auth:sanctum'])->delete('/users/{id}', function ($id) {
     DB::table('users')->where('id', $id)->delete();
-    return "deleted";
+    return response()->json([
+        'message' => 'User created'
+    ]);
 });
-// patch password
-Route::patch('/users/{id}', function ($id) {
+
+// // patch password
+// Route::patch('/users/{id}', function ($id) {
+//     DB::table('users')->where('id', $id)->update([
+//     'password' => bcrypt(request('password'))
+//     ]);
+//     return "password updated";
+// });
+
+// secure route patch password
+Route::middleware(['auth:sanctum'])->patch('/users/{id}', function ($id) {
     DB::table('users')->where('id', $id)->update([
     'password' => bcrypt(request('password'))
     ]);
