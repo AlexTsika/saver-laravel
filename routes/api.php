@@ -59,8 +59,48 @@ Route::post('/users', function() {
     ], 201);
 });
 
-// post user advanced
-    Route::post('/users', function (Request $request) {
+// // post user advanced
+//     Route::post('/users', function (Request $request) {
+//     $name = $request->input('name');
+//     $email = $request->input('email');
+//     $password = $request->input('password');
+
+//     if (DB::table('users')->where('email', $email)->exists()) {
+//         return response()->json([
+//             'message' => 'email already used'
+//         ], 409);
+//     }
+
+//     if (DB::table('users')->where('name', $name)->exists()) {
+//         return response()->json([
+//             'message' => 'username already used'
+//         ], 409);
+//     }
+
+//     DB::table('users')->insert([
+//         'name' => $name,
+//         'password' => Hash::make($password),
+//         'email' => $email
+//     ]);
+
+//     return response()->json([
+//         'message' => 'User created'
+//     ],201);
+// });
+
+// post user
+Route::post('/users', function() {
+    $id = DB::table('users')->insertGetId([
+    'name' => request('name'),
+    'password' => bcrypt(request('password'))
+    ]);
+    return response()->json([
+        'message' => 'User created'
+    ], 201);
+});
+
+// secure post user advanced
+Route::middleware(['auth:sanctum'])->post('/users', function (Request $request) {
     $name = $request->input('name');
     $email = $request->input('email');
     $password = $request->input('password');
@@ -87,7 +127,6 @@ Route::post('/users', function() {
         'message' => 'User created'
     ],201);
 });
-
 
 // delete user
 Route::delete('/users/id/{id}', function ($id) {
