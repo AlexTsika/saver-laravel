@@ -1,0 +1,100 @@
+openapi: 3.1.0
+servers:
+  - url: /
+paths:
+  /users:
+    get:
+      summary: get all users
+      responses:
+        '200':
+          description: A JSON array of all users
+    post:
+      summary: post user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: User created
+        '409':
+          description: email or username already used
+  /users/id/{id}:
+    get:
+      summary: Get user by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A JSON object of the user with the specified id
+    delete:
+      summary: delete user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User deleted
+    patch:
+      summary: patch password
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      responses:
+        '200':
+          description: password updated
+  /users/name/{name}:
+    get:
+      summary: Get user by name
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A JSON object of the user with the specified name
+  /tokens/create:
+    post:
+      summary: create tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                token_name:
+                  type: string
+      responses:
+        '200':
+          description: return token
